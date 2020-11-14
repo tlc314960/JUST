@@ -62,6 +62,10 @@ public class StuApplication extends BaseEntity
     @Excel(name = "班导师姓名")
     private String teacherName;
 
+    /** 申请状态 */
+    @Excel(name = "申请状态")
+    private String status;
+
     public void setApplyId(Long applyId) 
     {
         this.applyId = applyId;
@@ -170,6 +174,15 @@ public class StuApplication extends BaseEntity
     {
         return teacherName;
     }
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
 
     @Override
     public String toString() {
@@ -191,6 +204,7 @@ public class StuApplication extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
+            .append("status", getStatus())
             .toString();
     }
 }

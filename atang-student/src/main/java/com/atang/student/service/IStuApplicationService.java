@@ -7,7 +7,7 @@ import com.atang.student.domain.StuApplication;
  * 学生请假销假Service接口
  * 
  * @author atang
- * @date 2020-11-12
+ * @date 2020-11-14
  */
 public interface IStuApplicationService 
 {
@@ -18,6 +18,14 @@ public interface IStuApplicationService
      * @return 学生请假销假
      */
     public StuApplication selectStuApplicationById(Long applyId);
+
+    /**
+     * 查询学生全部请假销假
+     *
+     * @param stuId 学生请假销假ID
+     * @return 学生请假销假集合
+     */
+    public List<StuApplication> selectStuApplicationsById(Long stuId);
 
     /**
      * 查询学生请假销假列表

@@ -13,7 +13,7 @@ import com.ruoyi.common.core.text.Convert;
  * 学生请假销假Service业务层处理
  * 
  * @author atang
- * @date 2020-11-12
+ * @date 2020-11-14
  */
 @Service
 public class StuApplicationServiceImpl implements IStuApplicationService 
@@ -31,6 +31,17 @@ public class StuApplicationServiceImpl implements IStuApplicationService
     public StuApplication selectStuApplicationById(Long applyId)
     {
         return stuApplicationMapper.selectStuApplicationById(applyId);
+    }
+
+    /**
+     * 查询学生全部请假销假
+     *
+     * @param stuId 学生请假销假ID
+     * @return 学生请假销假集合
+     */
+    @Override
+    public List<StuApplication> selectStuApplicationsById(Long stuId) {
+        return stuApplicationMapper.selectStuApplicationsById(stuId);
     }
 
     /**

@@ -22,10 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectStuApplicationVo">
-        select apply_id, stu_id, stu_name, stu_sex, stu_dept, apply_reason, leave_time, back_time, leave_destination, sick, phonenumber, teacher_name, create_by, create_time, update_by, update_time, remark from stu_application
+        select apply_id, stu_id, stu_name, stu_sex, stu_dept, apply_reason, leave_time, back_time, leave_destination, sick, phonenumber, teacher_name, create_by, create_time, update_by, update_time, remark, status from stu_application
     </sql>
 
     <select id="selectStuApplicationList" parameterType="StuApplication" resultMap="StuApplicationResult">
@@ -42,12 +43,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sick != null  and sick != ''"> and sick = #{sick}</if>
             <if test="phonenumber != null  and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
             <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
     </select>
     
     <select id="selectStuApplicationById" parameterType="Long" resultMap="StuApplicationResult">
         <include refid="selectStuApplicationVo"/>
         where apply_id = #{applyId}
+    </select>
+
+    <select id="selectStuApplicationsById" parameterType="Long" resultMap="StuApplicationResult">
+        <include refid="selectStuApplicationVo"/>
+        where stu_id = #{stuId}
     </select>
         
     <insert id="insertStuApplication" parameterType="StuApplication">
@@ -70,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="applyId != null">#{applyId},</if>
@@ -89,6 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
          </trim>
     </insert>
 
@@ -111,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
         </trim>
         where apply_id = #{applyId}
     </update>

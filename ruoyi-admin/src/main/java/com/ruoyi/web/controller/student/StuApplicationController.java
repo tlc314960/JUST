@@ -1,26 +1,33 @@
 package com.ruoyi.web.controller.student;
 
-import com.atang.student.domain.StuApplication;
-import com.atang.student.service.IStuApplicationService;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.common.utils.poi.ExcelUtil;
+import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.enums.BusinessType;
+import com.atang.student.domain.StuApplication;
+import com.atang.student.service.IStuApplicationService;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 学生请假销假Controller
  * 
  * @author atang
- * @date 2020-11-12
+ * @date 2020-11-14
  */
 @Controller
 @RequestMapping("/student/application")
@@ -30,6 +37,9 @@ public class StuApplicationController extends BaseController
 
     @Autowired
     private IStuApplicationService stuApplicationService;
+
+    @Autowired
+    private ISysUserService userService;
 
     @RequiresPermissions("student:application:view")
     @GetMapping()
@@ -47,8 +57,15 @@ public class StuApplicationController extends BaseController
     public TableDataInfo list(StuApplication stuApplication)
     {
         startPage();
-        List<StuApplication> list = stuApplicationService.selectStuApplicationList(stuApplication);
-        return getDataTable(list);
+        SysUser user = ShiroUtils.getSysUser();
+        if(user.getLoginName().equals("admin")){
+            List<StuApplication> list = stuApplicationService.selectStuApplicationList(stuApplication);
+            return getDataTable(list);
+        }else{
+            List<StuApplication> list = stuApplicationService.selectStuApplicationsById(user.getUserId());
+            return getDataTable(list);
+        }
+
     }
 
     /**
@@ -69,8 +86,10 @@ public class StuApplicationController extends BaseController
      * 新增学生请假销假
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/add";
     }
 

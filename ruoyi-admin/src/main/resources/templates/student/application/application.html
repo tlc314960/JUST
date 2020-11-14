@@ -22,9 +22,9 @@
 <!--                                <label>学生性别：</label>-->
 <!--                                <input type="text" name="stuSex"/>-->
 <!--                            </li>-->
-                            <li>
+                            <li style="float: revert">
                                 <label>学生院系：</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-2" >
                                     <div class="input-group">
                                         <input name="stuDept" onclick="selectDeptTree()" id="treeName" type="text" autocomplete="off" placeholder="请选择归属院系" class="form-control">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
@@ -57,7 +57,7 @@
                                 <input type="text" name="phonenumber"/>
                             </li>
                             <li>
-                                <label>班导师姓名：</label>
+                                <label style="width: 80px">班导师姓名：</label>
                                 <input type="text" name="teacherName"/>
                             </li>
                             <li>
@@ -93,6 +93,9 @@
         var editFlag = [[${@permission.hasPermi('student:application:edit')}]];
         var removeFlag = [[${@permission.hasPermi('student:application:remove')}]];
         var prefix = ctx + "student/application";
+        var stuSexDatas = [[${@dict.getType('sys_user_sex')}]];
+        var sickDatas = [[${@dict.getType('stu_sick_status')}]];
+        var statusDatas = [[${@dict.getType('stu_app_status')}]];
 
         $(function() {
             var options = {
@@ -119,6 +122,13 @@
                     title: '学生姓名'
                 },
                 {
+                    field: 'stuSex',
+                    title: '学生性别',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(stuSexDatas, value);
+                    }
+                },
+                {
                     field: 'stuDept',
                     title: '学生院系'
                 },
@@ -130,6 +140,7 @@
                     field: 'leaveTime',
                     title: '离校时间'
                 },
+
                 {
                     field: 'backTime',
                     title: '返校时间'
@@ -145,6 +156,21 @@
                 {
                     field: 'teacherName',
                     title: '班导师姓名'
+                },
+                {
+                    field: 'sick',
+                    title: '是否生病',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(sickDatas, value);
+                    }
+                },
+                {
+                    field: 'status',
+                    title: '申请状态',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(statusDatas, value);
+                    }
+
                 },
                 {
                     field: 'remark',
@@ -163,6 +189,9 @@
             };
             $.table.init(options);
         });
+
+
+
         function selectDeptTree() {
             var treeId = $("#treeId").val();
             var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
