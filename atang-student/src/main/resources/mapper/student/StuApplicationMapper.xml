@@ -136,4 +136,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <update id="addStuApplicationStatusByIds" parameterType="String">
+        update stu_application set `status`=`status`+1 where apply_id in
+        <foreach item="applyId" collection="array" open="(" separator="," close=")">
+            #{applyId}
+        </foreach>
+    </update>
+
 </mapper>

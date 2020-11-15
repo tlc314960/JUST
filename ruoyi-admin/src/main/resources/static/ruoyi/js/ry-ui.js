@@ -995,6 +995,19 @@ var table = {
                     }
             	});
             },
+            //销假函数
+            reportBack: function (id, status) {
+                table.set();
+                $.modal.confirm("确定提交销假申请吗？", function() {
+                    var url = $.common.isEmpty(id) ? table.options.addStatusUrl : table.options.addStatusUrl.replace("{id}", id);
+                    if(table.options.type == table_type.bootstrapTreeTable) {
+                        $.operate.get(url);
+                    } else {
+                        var data = { "ids": id };
+                        $.operate.submit(url, "post", "json", data);
+                    }
+                });
+            },
             // 批量删除信息
             removeAll: function() {
             	table.set();

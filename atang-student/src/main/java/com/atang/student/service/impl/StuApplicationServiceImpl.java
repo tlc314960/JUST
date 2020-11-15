@@ -105,4 +105,15 @@ public class StuApplicationServiceImpl implements IStuApplicationService
     {
         return stuApplicationMapper.deleteStuApplicationById(applyId);
     }
+
+    /**
+     * 改变学生请假销假状态 +1
+     *
+     * @param ids 需要改变的数据ID
+     * @return 结果
+     */
+    @Override
+    public int addStuApplicationStatusByIds(String ids) {
+        return stuApplicationMapper.addStuApplicationStatusByIds(Convert.toStrArray(ids));
+    }
 }

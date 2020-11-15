@@ -66,4 +66,12 @@ public interface IStuApplicationService
      * @return 结果
      */
     public int deleteStuApplicationById(Long applyId);
+
+    /**
+     * 改变学生请假销假状态 +1
+     *
+     * @param ids 需要改变的数据ID
+     * @return 结果
+     */
+    public int addStuApplicationStatusByIds(String ids);
 }

@@ -89,6 +89,9 @@ public class StuApplicationController extends BaseController
     public String add(ModelMap mmap)
     {
         SysUser user = ShiroUtils.getSysUser();
+        if(!user.getLoginName().equals("admin")){
+
+        }
         mmap.put("user", userService.selectUserById(user.getUserId()));
         return prefix + "/add";
     }
@@ -138,5 +141,17 @@ public class StuApplicationController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(stuApplicationService.deleteStuApplicationByIds(ids));
+    }
+
+    /**
+     * 改变学生请假销假状态 +1
+     */
+    @RequiresPermissions("student:application:edit")
+    @Log(title = "学生请假销假", businessType = BusinessType.UPDATE)
+    @PostMapping( "/addStatus")
+    @ResponseBody
+    public AjaxResult addStatus(String ids)
+    {
+        return toAjax(stuApplicationService.addStuApplicationStatusByIds(ids));
     }
 }
