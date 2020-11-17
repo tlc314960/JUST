@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.atang.student.mapper.StuApplicationMapper">
+<mapper namespace="com.atang.teacher.mapper.TeacherApplicationManagementMapper">
     
-    <resultMap type="StuApplication" id="StuApplicationResult">
+    <resultMap type="TeacherApplicationManagement" id="TeacherApplicationManagementResult">
         <result property="applyId"    column="apply_id"    />
         <result property="stuId"    column="stu_id"    />
         <result property="stuName"    column="stu_name"    />
@@ -25,12 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="status"    column="status"    />
     </resultMap>
 
-    <sql id="selectStuApplicationVo">
+    <sql id="selectTeacherApplicationManagementVo">
         select apply_id, stu_id, stu_name, stu_sex, stu_dept, apply_reason, leave_time, back_time, leave_destination, sick, phonenumber, teacher_name, create_by, create_time, update_by, update_time, remark, status from stu_application
     </sql>
 
-    <select id="selectStuApplicationList" parameterType="StuApplication" resultMap="StuApplicationResult">
-        <include refid="selectStuApplicationVo"/>
+    <select id="selectTeacherApplicationManagementList" parameterType="TeacherApplicationManagement" resultMap="TeacherApplicationManagementResult">
+        <include refid="selectTeacherApplicationManagementVo"/>
         <where>  
             <if test="stuId != null "> and stu_id = #{stuId}</if>
             <if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
@@ -47,19 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectStuApplicationById" parameterType="Long" resultMap="StuApplicationResult">
-        <include refid="selectStuApplicationVo"/>
+    <select id="selectTeacherApplicationManagementById" parameterType="Long" resultMap="TeacherApplicationManagementResult">
+        <include refid="selectTeacherApplicationManagementVo"/>
         where apply_id = #{applyId}
     </select>
-
-    <select id="selectStuApplicationsById" parameterType="Long" resultMap="StuApplicationResult">
-        <include refid="selectStuApplicationVo"/>
-        where stu_id = #{stuId}
-    </select>
-
-
-
-    <insert id="insertStuApplication" parameterType="StuApplication">
+        
+    <insert id="insertTeacherApplicationManagement" parameterType="TeacherApplicationManagement">
         insert into stu_application
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="applyId != null">apply_id,</if>
@@ -103,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateStuApplication" parameterType="StuApplication">
+    <update id="updateTeacherApplicationManagement" parameterType="TeacherApplicationManagement">
         update stu_application
         <trim prefix="SET" suffixOverrides=",">
             <if test="stuId != null">stu_id = #{stuId},</if>
@@ -127,27 +120,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where apply_id = #{applyId}
     </update>
 
-    <delete id="deleteStuApplicationById" parameterType="Long">
+    <delete id="deleteTeacherApplicationManagementById" parameterType="Long">
         delete from stu_application where apply_id = #{applyId}
     </delete>
 
-    <delete id="deleteStuApplicationByIds" parameterType="String">
+    <delete id="deleteTeacherApplicationManagementByIds" parameterType="String">
         delete from stu_application where apply_id in 
         <foreach item="applyId" collection="array" open="(" separator="," close=")">
             #{applyId}
         </foreach>
     </delete>
-
-    <update id="addStuApplicationStatusByIds" parameterType="String">
-        update stu_application set `status`=`status`+1 where apply_id in
-        <foreach item="applyId" collection="array" open="(" separator="," close=")">
-            #{applyId}
-        </foreach>
-    </update>
-
-    <select id="selectStuApplicationsByDeptName" parameterType="string" resultMap="StuApplicationResult">
-        <include refid="selectStuApplicationVo"/>
-        where stu_dept = #{deptName}
-    </select>
 
 </mapper>

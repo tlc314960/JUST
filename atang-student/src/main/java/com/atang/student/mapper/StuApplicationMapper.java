@@ -68,10 +68,18 @@ public interface StuApplicationMapper
     List<StuApplication> selectStuApplicationsById(Long stuId);
 
     /**
-     * 查询学生全部请假销假
+     * 改变学生请假销假状态 +1
      *
      * @param applyIds 需要删除的数据ID
-     * @return 学生请假销假集合
+     * @return 结果
      */
     public int addStuApplicationStatusByIds(String[] applyIds);
+
+    /**
+     * 根据院系查询学生请假销假列表
+     *
+     * @param deptName 学生请假销假
+     * @return 学生请假销假集合
+     */
+    public List<StuApplication> selectStuApplicationsByDeptName(String deptName);
 }

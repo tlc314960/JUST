@@ -222,6 +222,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 教师事务-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>atang-teacher</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 测试模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -241,6 +248,7 @@
         <module>ruoyi-common</module>
         <module>atang-student</module>
         <module>ruoyi-test</module>
+        <module>atang-teacher</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -76,7 +76,7 @@
 <!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="student:application:edit">-->
 <!--                    <i class="fa fa-edit"></i> 修改-->
 <!--                </a>-->
-                <a class="btn btn-primary multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="student:application:remove">
+                <a class="btn btn-primary multiple disabled" onclick="$.operate.addStatusAll()" shiro:hasPermission="student:application:remove">
                     <i class="fa fa-minus"></i> 销假
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="student:application:export">
@@ -187,7 +187,7 @@
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
                         if (row.status == "3"){
                             // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.reportBack(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
+                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
                         }else{
 
                         }

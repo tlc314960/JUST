@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('请假销假管理列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>学生ID：</label>
+                                <input type="text" name="stuId"/>
+                            </li>
+                            <li>
+                                <label>学生姓名：</label>
+                                <input type="text" name="stuName"/>
+                            </li>
+                            <!--                            <li>-->
+                            <!--                                <label>学生性别：</label>-->
+                            <!--                                <input type="text" name="stuSex"/>-->
+                            <!--                            </li>-->
+                            <li style="float: revert">
+                                <label>学生院系：</label>
+                                <div class="col-sm-2" >
+                                    <div class="input-group">
+                                        <input name="stuDept" onclick="selectDeptTree()" id="treeName" type="text" autocomplete="off" placeholder="请选择归属院系" class="form-control">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="select-time">
+                                <label>离校时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="离校时间" name="leave_time"/>
+
+                            </li>
+                            <li class="select-time">
+                                <label>返校时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="返校时间" name="back_time"/>
+                            </li>
+                            <li>
+                                <label>去往何地：</label>
+                                <input type="text" name="leaveDestination"/>
+                            </li>
+                            <!--                            <li>-->
+                            <!--                                <label>是否生病：</label>-->
+                            <!--                                <div class="col-sm-8">-->
+                            <!--                                    <select name="sick" class="form-control m-b" th:with="type=${@dict.getType('stu_sick_status')}">-->
+                            <!--                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
+                            <!--                                    </select>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
+                            <li>
+                                <label>本人电话：</label>
+                                <input type="text" name="phonenumber"/>
+                            </li>
+                            <li>
+                                <label style="width: 80px">班导师姓名：</label>
+                                <input type="text" name="teacherName"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" single onclick="$.operate.addStatus()" shiro:hasPermission="teacher:applicationManagement:add">
+                    <i class="fa fa-plus"></i> 批准
+                </a>
+<!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="teacher:applicationManagement:edit">-->
+<!--                    <i class="fa fa-edit"></i> 修改-->
+<!--                </a>-->
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="teacher:applicationManagement:remove">
+                    <i class="fa fa-remove"></i> 驳回
+                </a>
+<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="teacher:applicationManagement:export">-->
+<!--                    <i class="fa fa-download"></i> 导出-->
+<!--                </a>-->
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('teacher:applicationManagement:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('teacher:applicationManagement:remove')}]];
+        // var stuSexDatas = [[${@dict.getType('sys_user_sex')}]];
+        // var sickDatas = [[${@dict.getType('stu_sick_status')}]];
+        var prefix = ctx + "teacher/applicationManagement";
+
+        // var editFlag = [[${@permission.hasPermi('student:application:edit')}]];
+        // var removeFlag = [[${@permission.hasPermi('student:application:remove')}]];
+        // var updateFlag = [[${@permission.hasPermi('student:application:update')}]];
+        // var prefix = ctx + "student/application";
+        var stuSexDatas = [[${@dict.getType('sys_user_sex')}]];
+        var sickDatas = [[${@dict.getType('stu_sick_status')}]];
+        var statusDatas = [[${@dict.getType('stu_app_status')}]];
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "请假销假管理",
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field: 'applyId',
+                        title: '请假ID',
+                        visible: false
+                    },
+                    {
+                        field: 'stuId',
+                        title: '学生ID'
+                    },
+                    {
+                        field: 'stuName',
+                        title: '学生姓名'
+                    },
+                    {
+                        field: 'stuSex',
+                        title: '学生性别',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(stuSexDatas, value);
+                        }
+                    },
+                    {
+                        field: 'stuDept',
+                        title: '学生院系'
+                    },
+                    {
+                        field: 'applyReason',
+                        title: '请假事由'
+                    },
+                    {
+                        field: 'leaveTime',
+                        title: '离校时间'
+                    },
+
+                    {
+                        field: 'backTime',
+                        title: '返校时间'
+                    },
+                    {
+                        field: 'leaveDestination',
+                        title: '去往何地'
+                    },
+                    {
+                        field: 'phonenumber',
+                        title: '本人电话'
+                    },
+                    {
+                        field: 'teacherName',
+                        title: '班导师姓名'
+                    },
+                    {
+                        field: 'sick',
+                        title: '是否生病',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(sickDatas, value);
+                        }
+                    },
+                    {
+                        field: 'status',
+                        title: '申请状态',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(statusDatas, value);
+                        }
+
+                    },
+                    {
+                        field: 'remark',
+                        title: '备注'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            //销假逻辑
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
+                            if (row.status == "3"){
+                                // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                                actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.reportBack(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
+                            }else{
+
+                            }
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

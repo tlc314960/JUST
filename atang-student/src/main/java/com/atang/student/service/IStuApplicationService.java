@@ -74,4 +74,12 @@ public interface IStuApplicationService
      * @return 结果
      */
     public int addStuApplicationStatusByIds(String ids);
+
+    /**
+     * 根据院系查询学生请假销假列表
+     *
+     * @param deptName 学生请假销假
+     * @return 学生请假销假集合
+     */
+    public List<StuApplication> selectStuApplicationsByDeptName(String deptName);
 }

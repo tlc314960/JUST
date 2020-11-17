@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import javax.sound.midi.Soundbank;
+
 /**
  * 学生请假销假Controller
  * 
@@ -41,6 +44,9 @@ public class StuApplicationController extends BaseController
     @Autowired
     private ISysUserService userService;
 
+    @Autowired
+    private ISysRoleService roleService;
+
     @RequiresPermissions("student:application:view")
     @GetMapping()
     public String application()
@@ -58,13 +64,36 @@ public class StuApplicationController extends BaseController
     {
         startPage();
         SysUser user = ShiroUtils.getSysUser();
-        if(user.getLoginName().equals("admin")){
-            List<StuApplication> list = stuApplicationService.selectStuApplicationList(stuApplication);
-            return getDataTable(list);
-        }else{
-            List<StuApplication> list = stuApplicationService.selectStuApplicationsById(user.getUserId());
-            return getDataTable(list);
+        Long userId = user.getUserId();
+        int roleId = userService.selectUserRoleByUserId(userId).remove(0).getRoleId().intValue();
+//        int roleId = user.getRoleId().intValue();
+        List<StuApplication> list = null;
+
+        switch (roleId){
+            case 1://admin
+                list = stuApplicationService.selectStuApplicationList(stuApplication);
+                break;
+            case 2://student
+                list = stuApplicationService.selectStuApplicationsById(userId);
+                break;
+//            case 100://teacher
+//                String deptName = user.getDept().getDeptName();
+//                list = stuApplicationService.selectStuApplicationsByDeptName(deptName);
+            default:
+                System.out.println("error!");
+                break;
         }
+        return getDataTable(list);
+//        if(user.getLoginName().equals("admin")){
+//            List<StuApplication> list = stuApplicationService.selectStuApplicationList(stuApplication);
+//            return getDataTable(list);
+//        }if(){
+//
+//        }
+//        else{
+//            List<StuApplication> list = stuApplicationService.selectStuApplicationsById(user.getUserId());
+//            return getDataTable(list);
+//        }
 
     }
 

@@ -996,7 +996,7 @@ var table = {
             	});
             },
             //销假函数
-            reportBack: function (id, status) {
+            addStatus: function (id, status) {
                 table.set();
                 $.modal.confirm("确定提交销假申请吗？", function() {
                     var url = $.common.isEmpty(id) ? table.options.addStatusUrl : table.options.addStatusUrl.replace("{id}", id);
@@ -1006,6 +1006,20 @@ var table = {
                         var data = { "ids": id };
                         $.operate.submit(url, "post", "json", data);
                     }
+                });
+            },
+            //批量销假函数
+            addStatusAll: function(){
+                table.set();
+                var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                if (rows.length == 0) {
+                    $.modal.alertWarning("请至少选择一条记录");
+                    return;
+                }
+                $.modal.confirm("确认要销假选中的" + rows.length + "条数据吗?", function() {
+                    var url = table.options.addStatusUrl;
+                    var data = { "ids": rows.join() };
+                    $.operate.submit(url, "post", "json", data);
                 });
             },
             // 批量删除信息
