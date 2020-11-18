@@ -144,6 +144,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{applyId}
         </foreach>
     </update>
+    <update id="endStuApplicationStatusByIds" parameterType="String">
+        update stu_application set `status`= 6 where apply_id in
+        <foreach item="applyId" collection="array" open="(" separator="," close=")">
+            #{applyId}
+        </foreach>
+    </update>
 
     <select id="selectStuApplicationsByDeptName" parameterType="string" resultMap="StuApplicationResult">
         <include refid="selectStuApplicationVo"/>

@@ -33,12 +33,12 @@
                             </li>
                             <li class="select-time">
                                 <label>离校时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="离校时间" name="leave_time"/>
+                                <input type="text" class="time-input" id="leaveTime" placeholder="离校时间" name="leave_time"/>
 
                             </li>
                             <li class="select-time">
                                 <label>返校时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="返校时间" name="back_time"/>
+                                <input type="text" class="time-input" id="backTime" placeholder="返校时间" name="back_time"/>
                             </li>
                             <li>
                                 <label>去往何地：</label>
@@ -76,7 +76,7 @@
 <!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="student:application:edit">-->
 <!--                    <i class="fa fa-edit"></i> 修改-->
 <!--                </a>-->
-                <a class="btn btn-primary multiple disabled" onclick="$.operate.addStatusAll()" shiro:hasPermission="student:application:remove">
+                <a class="btn btn-primary multiple disabled" onclick="approve()" shiro:hasPermission="student:application:remove">
                     <i class="fa fa-minus"></i> 销假
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="student:application:export">
@@ -176,7 +176,8 @@
                 },
                 {
                     field: 'remark',
-                    title: '备注'
+                    title: '备注',
+                    visible: false
                 },
                 {
                     title: '操作',
@@ -219,6 +220,20 @@
             $("#treeId").val(body.find('#treeId').val());
             $("#treeName").val(body.find('#treeName').val());
             layer.close(index);
+        }
+
+        function approve() {
+            var rows = $.table.selectColumns("status");
+            var flag = false;
+            for(var i=0; i<rows.length; i++){
+                if(rows[i] == '3')
+                    flag = true;
+            }
+            if(flag){
+                $.operate.addStatusAll();
+            }else{
+                $.modal.alertWarning("没有权限！");
+            }
         }
 
         //销假函数

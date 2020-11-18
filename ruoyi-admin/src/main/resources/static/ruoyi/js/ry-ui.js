@@ -995,10 +995,10 @@ var table = {
                     }
             	});
             },
-            //销假函数
+            //改变状态函数
             addStatus: function (id, status) {
                 table.set();
-                $.modal.confirm("确定提交销假申请吗？", function() {
+                $.modal.confirm("确定提交申请吗？", function() {
                     var url = $.common.isEmpty(id) ? table.options.addStatusUrl : table.options.addStatusUrl.replace("{id}", id);
                     if(table.options.type == table_type.bootstrapTreeTable) {
                         $.operate.get(url);
@@ -1008,7 +1008,7 @@ var table = {
                     }
                 });
             },
-            //批量销假函数
+            //批量改变状态函数
             addStatusAll: function(){
                 table.set();
                 var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
@@ -1016,7 +1016,7 @@ var table = {
                     $.modal.alertWarning("请至少选择一条记录");
                     return;
                 }
-                $.modal.confirm("确认要销假选中的" + rows.length + "条数据吗?", function() {
+                $.modal.confirm("确认要处理选中的" + rows.length + "条数据吗?", function() {
                     var url = table.options.addStatusUrl;
                     var data = { "ids": rows.join() };
                     $.operate.submit(url, "post", "json", data);
@@ -1035,6 +1035,33 @@ var table = {
             	    var data = { "ids": rows.join() };
             	    $.operate.submit(url, "post", "json", data);
             	});
+            },
+            //结束函数
+            endStatus: function (id, status) {
+                table.set();
+                $.modal.confirm("确定提交申请吗？", function() {
+                    var url = $.common.isEmpty(id) ? table.options.endStatusUrl : table.options.endStatusUrl.replace("{id}", id);
+                    if(table.options.type == table_type.bootstrapTreeTable) {
+                        $.operate.get(url);
+                    } else {
+                        var data = { "ids": id };
+                        $.operate.submit(url, "post", "json", data);
+                    }
+                });
+            },
+            //批量结束状态函数
+            endStatusAll: function(){
+                table.set();
+                var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                if (rows.length == 0) {
+                    $.modal.alertWarning("请至少选择一条记录");
+                    return;
+                }
+                $.modal.confirm("确认要处理选中的" + rows.length + "条数据吗?", function() {
+                    var url = table.options.endStatusUrl;
+                    var data = { "ids": rows.join() };
+                    $.operate.submit(url, "post", "json", data);
+                });
             },
             // 清空信息
             clean: function() {

@@ -127,4 +127,15 @@ public class StuApplicationServiceImpl implements IStuApplicationService
     public List<StuApplication> selectStuApplicationsByDeptName(String deptName) {
         return stuApplicationMapper.selectStuApplicationsByDeptName(deptName);
     }
+
+    /**
+     * 改变学生请假销假状态 ->6
+     *
+     * @param ids 需要改变的数据ID
+     * @return 结果
+     */
+    @Override
+    public int endStuApplicationStatusByIds(String ids) {
+        return stuApplicationMapper.endStuApplicationStatusByIds(Convert.toStrArray(ids));
+    }
 }

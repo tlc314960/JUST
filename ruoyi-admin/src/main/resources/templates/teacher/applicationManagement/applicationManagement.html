@@ -33,12 +33,12 @@
                             </li>
                             <li class="select-time">
                                 <label>离校时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="离校时间" name="leave_time"/>
+                                <input type="text" class="time-input" id="leaveTime" placeholder="离校时间" name="leave_time"/>
 
                             </li>
                             <li class="select-time">
                                 <label>返校时间：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="返校时间" name="back_time"/>
+                                <input type="text" class="time-input" id="backTime" placeholder="返校时间" name="back_time"/>
                             </li>
                             <li>
                                 <label>去往何地：</label>
@@ -70,13 +70,13 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" single onclick="$.operate.addStatus()" shiro:hasPermission="teacher:applicationManagement:add">
+                <a class="btn btn-primary" single onclick="approve()" shiro:hasPermission="teacher:applicationManagement:edit">
                     <i class="fa fa-plus"></i> 批准
                 </a>
 <!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="teacher:applicationManagement:edit">-->
 <!--                    <i class="fa fa-edit"></i> 修改-->
 <!--                </a>-->
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="teacher:applicationManagement:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.endStatusAll()" shiro:hasPermission="teacher:applicationManagement:edit">
                     <i class="fa fa-remove"></i> 驳回
                 </a>
 <!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="teacher:applicationManagement:export">-->
@@ -111,6 +111,8 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
+                addStatusUrl: prefix + "/addStatus",
+                endStatusUrl: prefix + "/endStatus",
                 modalName: "请假销假管理",
                 columns: [{
                     checkbox: true
@@ -181,18 +183,20 @@
                     },
                     {
                         field: 'remark',
-                        title: '备注'
+                        title: '备注',
+                        visible: false
                     },
                     {
                         title: '操作',
                         align: 'center',
                         formatter: function(value, row, index) {
                             var actions = [];
-                            //销假逻辑
+                            //批准逻辑
                             actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
-                            if (row.status == "3"){
+                            actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.endStatus(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>驳回</a> ');
+                            if (row.status == "0"){
                                 // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                                actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.reportBack(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
+                                actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>批准</a>');
                             }else{
 
                             }
@@ -202,6 +206,41 @@
             };
             $.table.init(options);
         });
+
+        function approve() {
+            var rows = $.table.selectColumns("status");
+            var flag = true;
+            for(var i=0; i<rows.length; i++){
+                if(rows[i] != '0')
+                    flag = false;
+            }
+            if(flag){
+                $.operate.addStatusAll();
+            }else{
+                $.modal.alertWarning("没有权限！");
+            }
+        }
+
+        function selectDeptTree() {
+            var treeId = $("#treeId").val();
+            var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+            var url = ctx + "system/dept/selectDeptTree/" + deptId;
+            var options = {
+                title: '选择院系',
+                width: "380",
+                url: url,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            var body = layer.getChildFrame('body', index);
+            $("#treeId").val(body.find('#treeId').val());
+            $("#treeName").val(body.find('#treeName').val());
+            layer.close(index);
+        }
     </script>
 </body>
 </html>

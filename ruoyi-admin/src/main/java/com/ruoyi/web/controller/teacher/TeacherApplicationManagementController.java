@@ -152,4 +152,28 @@ public class TeacherApplicationManagementController extends BaseController
     {
         return toAjax(teacherApplicationManagementService.deleteTeacherApplicationManagementByIds(ids));
     }
+
+    /**
+     * 改变学生请假销假状态 +1
+     */
+    @RequiresPermissions("teacher:applicationManagement:edit")
+    @Log(title = "请假销假管理", businessType = BusinessType.UPDATE)
+    @PostMapping( "/addStatus")
+    @ResponseBody
+    public AjaxResult addStatus(String ids)
+    {
+        return toAjax(stuApplicationService.addStuApplicationStatusByIds(ids));
+    }
+
+    /**
+     * 改变学生请假销假状态 ->6
+     */
+    @RequiresPermissions("teacher:applicationManagement:edit")
+    @Log(title = "请假销假管理", businessType = BusinessType.UPDATE)
+    @PostMapping( "/endStatus")
+    @ResponseBody
+    public AjaxResult endStatus(String ids)
+    {
+        return toAjax(stuApplicationService.endStuApplicationStatusByIds(ids));
+    }
 }

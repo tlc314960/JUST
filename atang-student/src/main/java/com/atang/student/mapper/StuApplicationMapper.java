@@ -82,4 +82,12 @@ public interface StuApplicationMapper
      * @return 学生请假销假集合
      */
     public List<StuApplication> selectStuApplicationsByDeptName(String deptName);
+
+    /**
+     * 改变学生请假销假状态 ->6
+     *
+     * @param applyIds 需要删除的数据ID
+     * @return 结果
+     */
+    public int endStuApplicationStatusByIds(String[] applyIds);
 }
