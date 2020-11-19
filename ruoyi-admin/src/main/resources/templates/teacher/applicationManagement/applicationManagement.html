@@ -194,7 +194,7 @@
                             //批准逻辑
                             actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
                             actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.endStatus(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>驳回</a> ');
-                            if (row.status == "0"){
+                            if (row.status == "0" || row.status == "4"){
                                 // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                                 actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>批准</a>');
                             }else{
@@ -211,7 +211,7 @@
             var rows = $.table.selectColumns("status");
             var flag = true;
             for(var i=0; i<rows.length; i++){
-                if(rows[i] != '0')
+                if(rows[i] != '0' && rows[i] != '4')
                     flag = false;
             }
             if(flag){

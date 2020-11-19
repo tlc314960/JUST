@@ -138,4 +138,15 @@ public class StuApplicationServiceImpl implements IStuApplicationService
     public int endStuApplicationStatusByIds(String ids) {
         return stuApplicationMapper.endStuApplicationStatusByIds(Convert.toStrArray(ids));
     }
+
+    /**
+     * 根据父院系Id查询学生请假销假列表
+     *
+     * @param deptId 学生请假销假
+     * @return 学生请假销假集合
+     */
+    @Override
+    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId) {
+        return stuApplicationMapper.selectStuApplicationsByParentDeptName(deptId);
+    }
 }

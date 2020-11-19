@@ -229,6 +229,20 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 学院事务-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>atang-department</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 学生中心事务-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>atang-center</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 测试模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -249,6 +263,8 @@
         <module>atang-student</module>
         <module>ruoyi-test</module>
         <module>atang-teacher</module>
+        <module>atang-department</module>
+        <module>atang-center</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('学生请假销假列表')" />
+    <th:block th:include="include :: header('请假销假管理列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -18,10 +18,10 @@
                                 <label>学生姓名：</label>
                                 <input type="text" name="stuName"/>
                             </li>
-<!--                            <li>-->
-<!--                                <label>学生性别：</label>-->
-<!--                                <input type="text" name="stuSex"/>-->
-<!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <label>学生性别：</label>-->
+                            <!--                                <input type="text" name="stuSex"/>-->
+                            <!--                            </li>-->
                             <li style="float: revert">
                                 <label>学生院系：</label>
                                 <div class="col-sm-2" >
@@ -44,14 +44,14 @@
                                 <label>去往何地：</label>
                                 <input type="text" name="leaveDestination"/>
                             </li>
-<!--                            <li>-->
-<!--                                <label>是否生病：</label>-->
-<!--                                <div class="col-sm-8">-->
-<!--                                    <select name="sick" class="form-control m-b" th:with="type=${@dict.getType('stu_sick_status')}">-->
-<!--                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                            </li>-->
+                            <!--                            <li>-->
+                            <!--                                <label>是否生病：</label>-->
+                            <!--                                <div class="col-sm-8">-->
+                            <!--                                    <select name="sick" class="form-control m-b" th:with="type=${@dict.getType('stu_sick_status')}">-->
+                            <!--                                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
+                            <!--                                    </select>-->
+                            <!--                                </div>-->
+                            <!--                            </li>-->
                             <li>
                                 <label>本人电话：</label>
                                 <input type="text" name="phonenumber"/>
@@ -59,12 +59,6 @@
                             <li>
                                 <label style="width: 80px">班导师姓名：</label>
                                 <input type="text" name="teacherName"/>
-                            </li>
-                            <li>
-                                申请状态：<select name="status" th:with="type=${@dict.getType('stu_app_status')}">
-                                <option value="">所有</option>
-                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                            </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -76,18 +70,18 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="student:application:add">
-                    <i class="fa fa-plus"></i> 请假
+                <a class="btn btn-primary" single onclick="approve()" shiro:hasPermission="teacher:applicationManagement:edit">
+                    <i class="fa fa-plus"></i> 批准
                 </a>
-<!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="student:application:edit">-->
-<!--                    <i class="fa fa-edit"></i> 修改-->
-<!--                </a>-->
-                <a class="btn btn-primary multiple disabled" onclick="approve()" shiro:hasPermission="student:application:remove">
-                    <i class="fa fa-minus"></i> 销假
+                <!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="teacher:applicationManagement:edit">-->
+                <!--                    <i class="fa fa-edit"></i> 修改-->
+                <!--                </a>-->
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.endStatusAll()" shiro:hasPermission="teacher:applicationManagement:edit">
+                    <i class="fa fa-remove"></i> 驳回
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="student:application:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
+                <!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="teacher:applicationManagement:export">-->
+                <!--                    <i class="fa fa-download"></i> 导出-->
+                <!--                </a>-->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -96,13 +90,12 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('student:application:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('student:application:remove')}]];
-        var updateFlag = [[${@permission.hasPermi('student:application:update')}]];
-        var prefix = ctx + "student/application";
+        var editFlag = [[${@permission.hasPermi('department:applicationManagement:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('department:applicationManagement:remove')}]];
         var stuSexDatas = [[${@dict.getType('sys_user_sex')}]];
         var sickDatas = [[${@dict.getType('stu_sick_status')}]];
         var statusDatas = [[${@dict.getType('stu_app_status')}]];
+        var prefix = ctx + "department/applicationManagement";
 
         $(function() {
             var options = {
@@ -112,7 +105,8 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 addStatusUrl: prefix + "/addStatus",
-                modalName: "学生请假销假",
+                endStatusUrl: prefix + "/endStatus",
+                modalName: "请假销假管理",
                 columns: [{
                     checkbox: true
                 },
@@ -133,7 +127,7 @@
                     field: 'stuSex',
                     title: '学生性别',
                     formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(stuSexDatas, value);
+                       return $.table.selectDictLabel(stuSexDatas, value);
                     }
                 },
                 {
@@ -148,7 +142,6 @@
                     field: 'leaveTime',
                     title: '离校时间'
                 },
-
                 {
                     field: 'backTime',
                     title: '返校时间'
@@ -156,6 +149,13 @@
                 {
                     field: 'leaveDestination',
                     title: '去往何地'
+                },
+                {
+                    field: 'sick',
+                    title: '是否生病',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(sickDatas, value);
+                    }
                 },
                 {
                     field: 'phonenumber',
@@ -166,11 +166,8 @@
                     title: '班导师姓名'
                 },
                 {
-                    field: 'sick',
-                    title: '是否生病',
-                    formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(sickDatas, value);
-                    }
+                    field: 'remark',
+                    title: '备注'
                 },
                 {
                     field: 'status',
@@ -178,23 +175,18 @@
                     formatter: function(value, row, index) {
                         return $.table.selectDictLabel(statusDatas, value);
                     }
-
-                },
-                {
-                    field: 'remark',
-                    title: '备注',
-                    visible: false
                 },
                 {
                     title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        //销假逻辑
+                        //批准逻辑
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
-                        if (row.status == "3"){
+                        actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.endStatus(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>驳回</a> ');
+                        if (row.status == "1"){
                             // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
+                            actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>批准</a>');
                         }else{
 
                         }
@@ -204,8 +196,6 @@
             };
             $.table.init(options);
         });
-
-
 
         function selectDeptTree() {
             var treeId = $("#treeId").val();
@@ -220,20 +210,12 @@
             $.modal.openOptions(options);
         }
 
-        function doSubmit(index, layero){
-            var tree = layero.find("iframe")[0].contentWindow.$._tree;
-            var body = layer.getChildFrame('body', index);
-            $("#treeId").val(body.find('#treeId').val());
-            $("#treeName").val(body.find('#treeName').val());
-            layer.close(index);
-        }
-
         function approve() {
             var rows = $.table.selectColumns("status");
-            var flag = false;
+            var flag = true;
             for(var i=0; i<rows.length; i++){
-                if(rows[i] == '3')
-                    flag = true;
+                if(rows[i] != '1')
+                    flag = false;
             }
             if(flag){
                 $.operate.addStatusAll();
@@ -242,10 +224,13 @@
             }
         }
 
-        //销假函数
-        // function reportBack(id, status) {
-        //
-        // }
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            var body = layer.getChildFrame('body', index);
+            $("#treeId").val(body.find('#treeId').val());
+            $("#treeName").val(body.find('#treeName').val());
+            layer.close(index);
+        }
     </script>
 </body>
 </html>

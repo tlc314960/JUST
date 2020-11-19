@@ -91,6 +91,18 @@
             <artifactId>atang-teacher</artifactId>
         </dependency>
 
+        <!-- 学院事务-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>atang-department</artifactId>
+        </dependency>
+
+        <!-- 学生中心事务-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>atang-center</artifactId>
+        </dependency>
+
         <!-- 测试模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>
