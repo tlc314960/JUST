@@ -67,12 +67,9 @@ public class TeacherApplicationManagementController extends BaseController
             case 1://admin
                 list = stuApplicationService.selectStuApplicationList(stuApplication);
                 break;
-//            case 2://student
-//                list = stuApplicationService.selectStuApplicationsById(userId);
-//                break;
             case 100://teacher
                 String deptName = user.getDept().getDeptName();
-                list = stuApplicationService.selectStuApplicationsByDeptName(deptName);
+                list = stuApplicationService.selectStuApplicationsByDeptName(deptName, stuApplication);
             default:
                 System.out.println("error!");
                 break;

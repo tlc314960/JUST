@@ -52,9 +52,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where apply_id = #{applyId}
     </select>
 
-    <select id="selectStuApplicationsById" parameterType="Long" resultMap="StuApplicationResult">
+    <select id="selectStuApplicationsById" resultMap="StuApplicationResult">
         <include refid="selectStuApplicationVo"/>
         where stu_id = #{stuId}
+        <if test="stuApplication.leaveDestination != null  and stuApplication.leaveDestination != ''"> and leave_destination = #{stuApplication.leaveDestination} </if>
+        <if test="stuApplication.sick != null  and stuApplication.sick != ''"> and sick = #{stuApplication.sick}</if>
+        <if test="stuApplication.status != null  and stuApplication.status != ''"> and status = #{stuApplication.status}</if>
     </select>
 
 
@@ -151,9 +154,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </update>
 
-    <select id="selectStuApplicationsByDeptName" parameterType="string" resultMap="StuApplicationResult">
+    <select id="selectStuApplicationsByDeptName" resultMap="StuApplicationResult">
         <include refid="selectStuApplicationVo"/>
         where stu_dept = #{deptName}
+<!--        <where>-->
+            <if test="stuApplication.stuId != null "> and stu_id = #{stuApplication.stuId}</if>
+            <if test="stuApplication.stuName != null  and stuApplication.stuName != ''"> and stu_name like concat('%', #{stuApplication.stuName}, '%')</if>
+            <if test="stuApplication.leaveTime != null  and stuApplication.leaveTime != ''"> and leave_time = #{stuApplication.leaveTime}</if>
+            <if test="stuApplication.backTime != null  and stuApplication.backTime != ''"> and back_time = #{stuApplication.backTime}</if>
+            <if test="stuApplication.leaveDestination != null  and stuApplication.leaveDestination != ''"> and leave_destination = #{stuApplication.leaveDestination}</if>
+            <if test="stuApplication.phonenumber != null  and stuApplication.phonenumber != ''"> and phonenumber = #{stuApplication.phonenumber}</if>
+            <if test="stuApplication.status != null  and stuApplication.status != ''"> and status = #{stuApplication.status}</if>
+<!--        </where>-->
     </select>
 
     <select id="selectStuApplicationsByParentDeptName" parameterType="Long" resultMap="StuApplicationResult">

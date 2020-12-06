@@ -74,7 +74,8 @@ public class StuApplicationController extends BaseController
                 list = stuApplicationService.selectStuApplicationList(stuApplication);
                 break;
             case 2://student
-                list = stuApplicationService.selectStuApplicationsById(userId);
+//                list = stuApplicationService.selectStuApplicationsById(userId);
+                list = stuApplicationService.selectStuApplicationsById(userId, stuApplication);
                 break;
 //            case 100://teacher
 //                String deptName = user.getDept().getDeptName();
@@ -84,17 +85,6 @@ public class StuApplicationController extends BaseController
                 break;
         }
         return getDataTable(list);
-//        if(user.getLoginName().equals("admin")){
-//            List<StuApplication> list = stuApplicationService.selectStuApplicationList(stuApplication);
-//            return getDataTable(list);
-//        }if(){
-//
-//        }
-//        else{
-//            List<StuApplication> list = stuApplicationService.selectStuApplicationsById(user.getUserId());
-//            return getDataTable(list);
-//        }
-
     }
 
     /**

@@ -2,6 +2,7 @@ package com.atang.student.mapper;
 
 import java.util.List;
 import com.atang.student.domain.StuApplication;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 学生请假销假Mapper接口
@@ -65,7 +66,7 @@ public interface StuApplicationMapper
      * @param stuId 学生请假销假ID
      * @return 学生请假销假集合
      */
-    List<StuApplication> selectStuApplicationsById(Long stuId);
+    List<StuApplication> selectStuApplicationsById(@Param("stuId")Long stuId,@Param("stuApplication") StuApplication stuApplication);
 
     /**
      * 改变学生请假销假状态 +1
@@ -81,7 +82,7 @@ public interface StuApplicationMapper
      * @param deptName 学生请假销假
      * @return 学生请假销假集合
      */
-    public List<StuApplication> selectStuApplicationsByDeptName(String deptName);
+    public List<StuApplication> selectStuApplicationsByDeptName(@Param("deptName")String deptName, @Param("stuApplication")StuApplication stuApplication);
 
     /**
      * 改变学生请假销假状态 ->6

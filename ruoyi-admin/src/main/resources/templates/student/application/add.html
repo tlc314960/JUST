@@ -35,12 +35,24 @@
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">学生院系：</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8" th:if=" ${user.userName ne 'admin'} ">
                     <div class="input-group">
-                        <input name="stuDept" onclick="selectDeptTree()" id="treeName" type="text" autocomplete="off" placeholder="请选择归属院系" class="form-control">
+                        <input name="stuDept" onclick="selectDeptTree()" id="treeName" required type="text" th:value="${user.dept.getDeptName()}" autocomplete="off" placeholder="请选择归属院系" class="form-control">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
+                <div class="col-sm-8" th:if=" ${user.userName eq 'admin'} ">
+                    <div class="input-group">
+                        <input name="stuDept" onclick="selectDeptTree()" id="treeName" required type="text" autocomplete="off" placeholder="请选择归属院系" class="form-control">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+<!--                <div class="col-sm-8" th:if=" ${user.userName ne 'admin'} ">-->
+<!--                    <input name="stuId" class="form-control" type="text" required th:value="${user.userId}" readonly>-->
+<!--                </div>-->
+<!--                <div class="col-sm-8" th:if=" ${user.userName eq 'admin'} ">-->
+<!--                    <input name="stuId" class="form-control" type="text" required>-->
+<!--                </div>-->
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">请假事由：</label>

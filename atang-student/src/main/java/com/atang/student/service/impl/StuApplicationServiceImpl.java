@@ -40,8 +40,8 @@ public class StuApplicationServiceImpl implements IStuApplicationService
      * @return 学生请假销假集合
      */
     @Override
-    public List<StuApplication> selectStuApplicationsById(Long stuId) {
-        return stuApplicationMapper.selectStuApplicationsById(stuId);
+    public List<StuApplication> selectStuApplicationsById(Long stuId, StuApplication stuApplication) {
+        return stuApplicationMapper.selectStuApplicationsById(stuId, stuApplication);
     }
 
     /**
@@ -124,8 +124,8 @@ public class StuApplicationServiceImpl implements IStuApplicationService
      * @return 学生请假销假集合
      */
     @Override
-    public List<StuApplication> selectStuApplicationsByDeptName(String deptName) {
-        return stuApplicationMapper.selectStuApplicationsByDeptName(deptName);
+    public List<StuApplication> selectStuApplicationsByDeptName(String deptName, StuApplication stuApplication) {
+        return stuApplicationMapper.selectStuApplicationsByDeptName(deptName, stuApplication);
     }
 
     /**

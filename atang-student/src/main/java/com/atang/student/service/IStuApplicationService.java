@@ -25,7 +25,7 @@ public interface IStuApplicationService
      * @param stuId 学生请假销假ID
      * @return 学生请假销假集合
      */
-    public List<StuApplication> selectStuApplicationsById(Long stuId);
+    public List<StuApplication> selectStuApplicationsById(Long stuId, StuApplication stuApplication);
 
     /**
      * 查询学生请假销假列表
@@ -81,7 +81,7 @@ public interface IStuApplicationService
      * @param deptName 学生请假销假
      * @return 学生请假销假集合
      */
-    public List<StuApplication> selectStuApplicationsByDeptName(String deptName);
+    public List<StuApplication> selectStuApplicationsByDeptName(String deptName, StuApplication stuApplication);
 
     /**
      * 改变学生请假销假状态 ->6
