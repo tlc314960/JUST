@@ -97,5 +97,5 @@ public interface IStuApplicationService
      * @param deptId 学生请假销假
      * @return 学生请假销假集合
      */
-    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId);
+    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId, StuApplication stuApplication);
 }

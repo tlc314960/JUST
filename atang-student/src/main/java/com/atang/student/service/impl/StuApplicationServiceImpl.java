@@ -146,7 +146,7 @@ public class StuApplicationServiceImpl implements IStuApplicationService
      * @return 学生请假销假集合
      */
     @Override
-    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId) {
-        return stuApplicationMapper.selectStuApplicationsByParentDeptName(deptId);
+    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId, StuApplication stuApplication) {
+        return stuApplicationMapper.selectStuApplicationsByParentDeptName(deptId, stuApplication);
     }
 }

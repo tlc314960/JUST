@@ -79,7 +79,7 @@ public class DepartmentApplicationManagementController extends BaseController
 //                list = stuApplicationService.selectStuApplicationsByDeptName(deptName);
             case 101://departmentAdministrator
                 Long deptId = user.getDept().getDeptId();
-                list = stuApplicationService.selectStuApplicationsByParentDeptName(deptId);
+                list = stuApplicationService.selectStuApplicationsByParentDeptName(deptId, stuApplication);
             default:
                 System.out.println("error!");
                 break;

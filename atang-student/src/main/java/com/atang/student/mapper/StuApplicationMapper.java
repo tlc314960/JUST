@@ -98,5 +98,5 @@ public interface StuApplicationMapper
      * @param deptId 学生请假销假
      * @return 学生请假销假集合
      */
-    public List<StuApplication> selectStuApplicationsByParentDeptName(Long deptId);
+    public List<StuApplication> selectStuApplicationsByParentDeptName(@Param("deptId")Long deptId, @Param("stuApplication")StuApplication stuApplication);
 }

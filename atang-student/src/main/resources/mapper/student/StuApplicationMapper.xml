@@ -168,10 +168,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        </where>-->
     </select>
 
-    <select id="selectStuApplicationsByParentDeptName" parameterType="Long" resultMap="StuApplicationResult">
+    <select id="selectStuApplicationsByParentDeptName" resultMap="StuApplicationResult">
         select apply_id, stu_id, stu_name, stu_sex, stu_dept, apply_reason, leave_time, back_time, leave_destination, sick, phonenumber, teacher_name, ap.create_by, ap.create_time, ap.update_by, ap.update_time, ap.remark, ap.status from stu_application ap
             left join sys_dept d on ap.stu_dept = d.dept_name
         where d.parent_id = #{deptId}
+        <if test="stuApplication.stuId != null "> and stu_id = #{stuApplication.stuId}</if>
+        <if test="stuApplication.stuName != null  and stuApplication.stuName != ''"> and stu_name like concat('%', #{stuApplication.stuName}, '%')</if>
+        <if test="stuApplication.stuDept != null  and stuApplication.stuDept != ''"> and stu_dept = #{stuApplication.stuDept}</if>
+        <if test="stuApplication.leaveTime != null  and stuApplication.leaveTime != ''"> and leave_time = #{stuApplication.leaveTime}</if>
+        <if test="stuApplication.backTime != null  and stuApplication.backTime != ''"> and back_time = #{stuApplication.backTime}</if>
+        <if test="stuApplication.leaveDestination != null  and stuApplication.leaveDestination != ''"> and leave_destination = #{stuApplication.leaveDestination}</if>
+        <if test="stuApplication.phonenumber != null  and stuApplication.phonenumber != ''"> and phonenumber = #{stuApplication.phonenumber}</if>
+        <if test="stuApplication.teachername != null  and stuApplication.teachername != ''"> and teacher_name = #{stuApplication.teachername}</if>
+        <if test="stuApplication.status != null  and stuApplication.status != ''"> and status = #{stuApplication.status}</if>
     </select>
 
 </mapper>
