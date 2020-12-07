@@ -62,6 +62,7 @@
         var editFlag = [[${@permission.hasPermi('student:application:edit')}]];
         var removeFlag = [[${@permission.hasPermi('student:application:remove')}]];
         var updateFlag = [[${@permission.hasPermi('student:application:update')}]];
+        var detailFlag = [[${@permission.hasPermi('student:application:detail')}]];
         var prefix = ctx + "student/application";
         var stuSexDatas = [[${@dict.getType('sys_user_sex')}]];
         var sickDatas = [[${@dict.getType('stu_sick_status')}]];
@@ -75,6 +76,7 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 addStatusUrl: prefix + "/addStatus",
+                detailUrl: prefix + "/detail/{id}",
                 modalName: "学生请假销假",
                 columns: [{
                     checkbox: true
@@ -105,7 +107,8 @@
                 },
                 {
                     field: 'applyReason',
-                    title: '请假事由'
+                    title: '请假事由',
+                    visible: false
                 },
                 {
                     field: 'leaveTime',
@@ -122,11 +125,13 @@
                 },
                 {
                     field: 'phonenumber',
-                    title: '本人电话'
+                    title: '本人电话',
+                    visible: false
                 },
                 {
                     field: 'teacherName',
-                    title: '班导师姓名'
+                    title: '班导师姓名',
+                    visible: false
                 },
                 {
                     field: 'sick',
@@ -153,10 +158,12 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                        var more = [];
                         //销假逻辑
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>详情</a> ');
                         if (row.status == "3"){
                             // actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.applyId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            // actions.push('<a class="btn btn-info btn-xs ' + editFlag + '" href="javascript:void(0)" onclick=""><i class="fa fa-qrcode"></i>二维码</a>');
                             actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.addStatus(\'' + row.applyId + '\')"><i class="fa fa-minus"></i>销假</a>');
                         }else{
 

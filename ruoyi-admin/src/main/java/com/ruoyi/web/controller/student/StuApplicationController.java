@@ -173,4 +173,13 @@ public class StuApplicationController extends BaseController
     {
         return toAjax(stuApplicationService.addStuApplicationStatusByIds(ids));
     }
+
+
+    @RequiresPermissions("student:application:detail")
+    @GetMapping("/detail/{applyId}")
+    public String detail(@PathVariable("applyId") Long applyId, ModelMap mmap)
+    {
+        mmap.put("stuApplication", stuApplicationService.selectStuApplicationById(applyId));
+        return prefix + "/detail";
+    }
 }
