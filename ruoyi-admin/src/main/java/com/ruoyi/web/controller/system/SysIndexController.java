@@ -50,8 +50,8 @@ public class SysIndexController extends BaseController
         mmap.put("skinName", configService.selectConfigByKey("sys.index.skinName"));
         mmap.put("ignoreFooter", configService.selectConfigByKey("sys.index.ignoreFooter"));
         mmap.put("copyrightYear", Global.getCopyrightYear());
-        mmap.put("demoEnabled", Global.isDemoEnabled());
-//        mmap.put("demoEnabled", false);
+//        mmap.put("demoEnabled", Global.isDemoEnabled());
+        mmap.put("demoEnabled", false);
         mmap.put("isDefaultModifyPwd", initPasswordIsModify(user.getPwdUpdateDate()));
         mmap.put("isPasswordExpired", passwordIsExpiration(user.getPwdUpdateDate()));
 
