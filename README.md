@@ -31,17 +31,14 @@
 更多……
 
 ## 在线体验
-注册功能实现未开发，校内服务网站不应开放注册，系统可以批量导入用户，可以由各班级收集学生信息填入Excel表格然后导入。
+注册功能已但实现未开放，校内服务网站不应开放注册，系统可以批量导入用户，可以由各班级收集学生信息填入Excel表格然后导入。
 
 演示地址：http://atang.icu
 
 ## 演示图
 
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-42e518aa72a24d228427a1261cb3679f395.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-7f20dd0edba25e5187c5c4dd3ec7d3d9797.png"/></td>
-    </tr>
-    
-</table>
+![login](ruoyi-admin/src/main/resources/static/readme/login.png
+ "login")
+![index](ruoyi-admin/src/main/resources/static/readme/index.png
+  "index")
 
