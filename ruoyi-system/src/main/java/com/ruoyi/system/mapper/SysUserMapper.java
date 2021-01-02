@@ -67,6 +67,14 @@ public interface SysUserMapper
     public SysUser selectUserById(Long userId);
 
     /**
+     * 根据DpetId查询用户列表
+     *
+     * @param deptId 用户院系
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUserListByDeptId(Long deptId);
+
+    /**
      * 通过用户ID删除用户
      * 
      * @param userId 用户ID

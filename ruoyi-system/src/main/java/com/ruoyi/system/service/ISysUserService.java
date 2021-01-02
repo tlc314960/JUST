@@ -28,6 +28,14 @@ public interface ISysUserService
     public List<SysUser> selectAllocatedList(SysUser user);
 
     /**
+     * 根据条件分页查询已分配用户角色列表
+     *
+     * @param deptId 用户院系
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUserListByDeptId(Long deptId);
+
+    /**
      * 根据条件分页查询未分配用户角色列表
      * 
      * @param user 用户信息

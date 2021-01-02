@@ -135,6 +135,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <include refid="selectUserVo"/>
 		where u.email = #{email}
 	</select>
+
+	<select id="selectUserListByDeptId" parameterType="Long" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.dept_id = #{deptId}
+	</select>
 	
 	<select id="checkLoginNameUnique" parameterType="String" resultType="int">
 		select count(1) from sys_user where login_name=#{loginName} limit 1
